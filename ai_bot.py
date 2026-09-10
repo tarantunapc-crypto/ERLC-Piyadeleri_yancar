@@ -1,7 +1,7 @@
 import os
 import discord
 from discord.ext import commands
-import google.generativeai as genai
+from google import genai
 import asyncio
 
 # config.py icinden TOKEN al
@@ -10,12 +10,10 @@ from config import TOKEN
 # Gemini API Yapılandırması
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+    ai_client = genai.Client(api_key=GEMINI_API_KEY)
 else:
+    ai_client = None
     print("UYARI: GEMINI_API_KEY ortam değişkeni bulunamadı. Yapay zeka cevap veremeyebilir!")
-
-# Gelişmiş, hızlı bir model seçiyoruz. 
-model = genai.GenerativeModel('gemini-1.5-flash')
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -123,8 +121,13 @@ Eğer sadece yetkililerin görebildiği kanallar veya bu kanalların arka planı
     return prompt
 
 def generate_ai_response(prompt: str) -> str:
+    if not ai_client:
+        return "YÖNETİM_ETİKETLE"
     try:
-        response = model.generate_content(prompt)
+        response = ai_client.models.generate_content(
+            model='gemini-1.5-flash',
+            contents=prompt
+        )
         return response.text
     except Exception as e:
         print(f"Gemini API Hatası: {e}")
