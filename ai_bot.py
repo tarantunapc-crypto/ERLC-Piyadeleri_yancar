@@ -123,7 +123,7 @@ def generate_ai_response(prompt: str) -> str:
         return "⚠️ Hata: GEMINI_API_KEY ortam değişkeni ayarlanmamış! (Railway'den Variables kısmına eklemelisin)"
     try:
         response = ai_client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-2.0-flash',
             contents=prompt
         )
         return response.text
