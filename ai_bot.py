@@ -29,12 +29,13 @@ def build_system_prompt(user: discord.Member) -> str:
     is_management = any(rid in roles for rid in [1529546007635824680, 1539167256246747186, 1534798061845483694, 1537934087166369812])
 
     prompt = """Sen ERLC Piyadeleri Discord sunucusu için geliştirilmiş bir Yapay Zeka (AI) destek botusun.
-Sadece bilet (ticket) kanallarında çalışırsın. Amacın bilet açan üyelere yardımcı olmak, sorunlarını okuyup anlamak ve sunucu işleyişiyle alakalı bilgi veya fikir üretmektir.
+Sadece bilet (ticket) kanallarında çalışırsın. Amacın bilet açan üyelere 1 defaya mahsus yardımcı olmak, sorularına yanıt verip çözüm üretmektir.
 Kurallar ve içerik dışında bir şey uydurmamaya özen göster. Samimi, saygılı ve profesyonel bir dil kullan.
 
-EĞER KULLANICININ SORUNUNA YARDIMCI OLAMIYORSAN VEYA FİKİR ÜRETEMİYORSAN SADECE VE SADECE ŞU KELİMEYİ YAZ:
+ÖNEMLİ KURAL:
+Eğer sorulan soru senin bilmediğin bir şeyse, sistemde karşılığı yoksa veya gerçekten kullanıcıya hiçbir şekilde yardımcı olamayacağını düşünüyorsan SADECE VE SADECE ŞU KELİMEYİ YAZ:
 YÖNETİM_ETİKETLE
-Bu kelimeyi yazarsan sistem otomatik olarak gerçek yetkilileri çağıracaktır. Başka bir şey ekleme.
+Bu kelimeyi yazarsan sistem otomatik olarak gerçek yetkilileri çağıracaktır. Ancak eğer kullanıcının sorduğu soruya bir cevabın varsa VEYA kullanıcının erişim engeli/kayıtsızlık durumu yüzünden işlemi yapamıyorsa bunu kullanıcıya güzelce AÇIKLA (Yönetimi etiketleme). Sadece gerçekten çaresiz kaldığın durumlarda YÖNETİM_ETİKETLE yaz.
 
 SUNUCU GENEL KANALLARI:
 - Kurallar Kanalı (<#1532828330380890452>): Sunucu kuralları yazar. (Kural İlkeleri: https://canva.link/ma7hw7a6ex9lmmw)
@@ -44,7 +45,7 @@ SUNUCU GENEL KANALLARI:
 - Sosyal Medya Kanalı (<#1532828546865696889>): Instagram (https://www.instagram.com/erlcpiyadeleri/) ve Youtube (https://www.youtube.com/@RPservers-Privateservers).
 - Reklam Kanalı (<#1532828574028140564>): Başka sunucuların reklamları.
 - İstek-Öneri Kanalı (<#1545562405076209714>): Eklenti/özellik istekleri. Yetkililer inceler, kabul ederse ekler, reddederse siler.
-- Sohbet Kanalı (<#1532828722158112779>): Üyelerin sohbet kanalı.
+- Sohbet Kanalı (<#1532828722158112779>): Üyelerin sohbet kanalı. Orada sohbet edip aktif olunabilir.
 - Medya Kanalı (<#1532829033564213298>): Oyun/aktivite fotoğrafları ve linkleri paylaşılır. (Metin yazmak yasaktır)
 - Perm Al Kanalı (<#1532829702274682890>): "Driver", "Pvp", "Builder", "Legal", "İllegal", "Sıcak Kanlı" rolleri alınabilir. Legal ve İllegal aynı anda alınamaz.
 - Play Music Kanalı (<#1532828810582429907>): Ses kanalındayken müzik oynatma.
@@ -64,18 +65,17 @@ SUNUCU GENEL KANALLARI:
     if is_unregistered:
         prompt += """
 ---
-DİKKAT KULLANICI DURUMU: KAYITSIZ
-Bilet açan kullanıcı KAYITSIZ bir kullanıcıdır veya sunucuya yeni katılmıştır.
-KURAL: Bu kullanıcıya SADECE Kayıt Kanalı, Bilet Kanalı, Yardım Bekleme Ses Kanalı, Kurallar Kanalı ve Sosyal Medya Kanalı hakkında bilgi verebilirsin. 
-Diğer hiçbir kanal veya sunucu sistemi hakkında bilgi VERMEYECEKSİN. Eğer diğer kanalları sorarsa yetkisi olmadığını belirtip yukarıdaki 5 konudan biriyse yardımcı ol.
+DİKKAT KULLANICI DURUMU: KAYITSIZ (VEYA ROLSÜZ)
+KURAL: Bilet açan bu kullanıcı henüz KAYITSIZ. Bu kullanıcıya SADECE Kayıt Kanalı, Bilet Kanalı, Yardım Bekleme Ses Kanalı, Kurallar Kanalı ve Sosyal Medya Kanalı hakkında bilgi verebilirsin. 
+Diğer hiçbir kanal hakkında bilgi VEREMEZSİN. Eğer sohbet, medya, aktiflik gibi diğer kanalları sorarsa: "Henüz kayıtlı olmadığınız için o kanallara erişiminiz yok, lütfen Kayıt Kanalı'ndan kayıt işlemlerinizi tamamlayın" gibi bir cevap ver. Sakın YÖNETİM_ETİKETLE yazma, durumu ona kendin izah et.
 """
     elif is_banned:
         prompt += """
 ---
 DİKKAT KULLANICI DURUMU: YASAKLI
-Bilet açan kullanıcı YASAKLI bir kullanıcıdır.
-KURAL: Bu kullanıcıya SADECE Bilet Kanalı, Yardım Bekleme Ses Kanalı, Kurallar Kanalı ve Sınırlı Erişim Kanalı hakkında bilgi verebilirsin. 
-Diğer kanallar hakkında hiçbir şekilde bilgi VERMEYECEKSİN. Yasaklı olduğu için durumunu Sınırlı Erişim kanalından yetkililerle görüşmesi gerektiğini belirtebilirsin.
+KURAL: Bilet açan bu kullanıcı YASAKLI durumunda.
+Bu kullanıcıya SADECE Bilet Kanalı, Yardım Bekleme Ses Kanalı, Kurallar Kanalı ve Sınırlı Erişim Kanalı hakkında bilgi verebilirsin. 
+Yasaklı olduğu için sohbet veya diğer etkinliklere katılamaz. Bunu sorarsa durumunu Sınırlı Erişim kanalından yetkililerle görüşmesi gerektiğini nazikçe belirt.
 """
     elif is_management:
         try:
@@ -93,8 +93,8 @@ Diğer kanallar hakkında hiçbir şekilde bilgi VERMEYECEKSİN. Yasaklı olduğ
         prompt += f"""
 ---
 DİKKAT KULLANICI DURUMU: YÖNETİM EKİBİ (YETKİLİ)
-Bilet açan kullanıcı yönetim ekibinden biridir. Normal konulardaki sorularına detaylı ve normal şekilde cevap ver.
-Eğer sadece yetkililerin görebildiği kanallar veya bu kanalların arka planında çalışan sistemler/dosyalarla (uyari_sistemi.py, registration.py, yardim_bekleme.py) ilgili teknik soru sorarsa, aşağıdaki dosyaların içeriğini inceleyerek kodların nasıl çalıştığını, komutları ve süreçleri adım adım anlat:
+Bilet açan kullanıcı yönetim ekibinden biridir. Normal konulardaki sorularına detaylı cevap ver.
+Eğer sadece yetkililerin görebildiği kanallar veya bu kanalların arka planında çalışan sistemler/dosyalarla (uyari_sistemi.py, registration.py, yardim_bekleme.py) ilgili teknik soru sorarsa, aşağıdaki dosyaların içeriğini inceleyerek kodların nasıl çalıştığını anlat:
 
 -- Yetkili Özel Kanalları --
 - Only-Moderatör Kanalı (<#1532828404347437287>): Yetkililerin işlemlerinin gösterildiği log kanalı.
@@ -106,12 +106,10 @@ Eğer sadece yetkililerin görebildiği kanallar veya bu kanalların arka planı
 ```python
 {uyari_code}
 ```
-
 -- registration.py İçeriği --
 ```python
 {reg_code}
 ```
-
 -- yardim_bekleme.py İçeriği --
 ```python
 {yardim_code}
@@ -122,7 +120,7 @@ Eğer sadece yetkililerin görebildiği kanallar veya bu kanalların arka planı
 
 def generate_ai_response(prompt: str) -> str:
     if not ai_client:
-        return "YÖNETİM_ETİKETLE"
+        return "⚠️ Hata: GEMINI_API_KEY ortam değişkeni ayarlanmamış! (Railway'den Variables kısmına eklemelisin)"
     try:
         response = ai_client.models.generate_content(
             model='gemini-1.5-flash',
@@ -131,7 +129,7 @@ def generate_ai_response(prompt: str) -> str:
         return response.text
     except Exception as e:
         print(f"Gemini API Hatası: {e}")
-        return "YÖNETİM_ETİKETLE" # Hata durumunda yetkili çağırsın
+        return "YÖNETİM_ETİKETLE" 
 
 @bot.event
 async def on_ready():
@@ -141,7 +139,6 @@ async def on_ready():
 async def on_guild_channel_create(channel):
     # Yeni bir bilet kanalı oluşturulduğunda ilk mesajı gönder
     if isinstance(channel, discord.TextChannel) and channel.name.startswith("ticket-"):
-        # Tickets.py'nin kanalı tam olarak hazırlamasını ve embed atmasını biraz bekleyelim
         await asyncio.sleep(4)
         
         topic = channel.topic or ""
@@ -150,21 +147,34 @@ async def on_guild_channel_create(channel):
                 user_id = int(topic.split("acan_id:")[1].strip())
                 user = channel.guild.get_member(user_id)
                 if user:
-                    # Kullanıcının adını süsleyerek özel karşılama
+                    # Başlangıç Karşılama Mesajı
                     await channel.send(f"[ {user.mention} Merhabalar, size nasıl yardımcı olabiliriz? Sorununuzu veya sorunuzu detaylıca yazarsanız sevinirim. ]")
             except Exception as e:
                 print("Karşılama mesajı gönderilirken hata:", e)
 
 @bot.event
 async def on_message(message):
-    # Botların kendi mesajlarına veya diğer botlara yanıt vermesini engelle
+    # Botların kendi mesajlarına yanıt vermesini engelle
     if message.author.bot:
         return
     
-    # Sadece ticket kanallarında işlem yap
     if isinstance(message.channel, discord.TextChannel) and message.channel.name.startswith("ticket-"):
+        
+        # --- TEK CEVAP KONTROLÜ ---
+        # Bot daha önce bu kanalda yapay zeka ile cevap vermiş mi kontrol et.
+        # Eğer botun attığı mesajlar içinde "size nasıl yardımcı olabiliriz?" içermeyen bir mesaj varsa, demek ki cevap verilmiş.
+        has_replied = False
+        async for msg in message.channel.history(limit=50):
+            if msg.author == bot.user and "size nasıl yardımcı olabiliriz?" not in msg.content:
+                has_replied = True
+                break
+                
+        if has_replied:
+            # Yapay zeka zaten 1 defa asıl cevabı vermiş, bu yüzden bir daha karışmıyor.
+            return
+        # ---------------------------
+
         async with message.channel.typing():
-            # Son mesajları alarak konuşma geçmişini oluştur
             messages = []
             async for msg in message.channel.history(limit=15):
                 messages.append(msg)
@@ -174,7 +184,6 @@ async def on_message(message):
             conversation_text = ""
             for msg in messages:
                 if msg.author.bot:
-                    # Karşılama ve ticket embed mesajlarını filtrele, sadece gerçek sohbeti bırak
                     if msg.content and "destek talebi oluşturdu" not in msg.content.lower() and "size nasıl yardımcı olabiliriz" not in msg.content.lower():
                         conversation_text += f"Bot: {msg.content}\n"
                 else:
@@ -183,17 +192,14 @@ async def on_message(message):
             system_prompt = build_system_prompt(message.author)
             prompt = f"{system_prompt}\n\n--- KONUŞMA GEÇMİŞİ ---\n{conversation_text}\nAI:"
             
-            # API İsteğini arka planda yap (Botu dondurmamak için)
             response_text = await asyncio.to_thread(generate_ai_response, prompt)
             
-            # Eğer AI cevap bulamadıysa veya YÖNETİM_ETİKETLE kelimesi geçiyorsa:
             if "YÖNETİM_ETİKETLE" in response_text or "YONETIM_ETIKETLE" in response_text:
                 await message.channel.send(
                     f"Bu konuda size daha detaylı ve doğru yardımcı olabilmek için yönetim ekibimizi konuya dahil ediyorum.\n"
                     f"<@&1529546007635824680> <@&1539167256246747186> <@&1534798061845483694> <@&1537934087166369812>"
                 )
             else:
-                # 2000 karakter sınırını aşmamak için bölerek gönder
                 if len(response_text) > 1950:
                     for chunk in [response_text[i:i+1950] for i in range(0, len(response_text), 1950)]:
                         await message.channel.send(chunk)
